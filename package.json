@@ -54,7 +54,6 @@
   "devDependencies": {
     "browserify": "^13.0.0",
     "jshint": "^2.6.3",
-    "make-better": "^0.4.1",
     "precommit-hook": "^3.0.0",
     "tap-spec": "^4.1.0",
     "tape": "^4.2.0",
@@ -79,8 +78,10 @@
     "url": "https://github.com/otalk/stanza.io.git"
   },
   "scripts": {
-    "build": "make build",
-    "test": "make test",
+    "build:bundle": "browserify --full-paths --standalone XMPP index.js > build/stanzaio.bundle.js",
+    "build:minify": "uglifyjs --screw-ie8 --compress --mangle --keep-fnames build/stanzaio.bundle.js > build/stanzaio.bundle.min.js",
+    "build": "npm run build:bundle && npm run build:minify",
+    "test": "node test/index.js | tap-spec",
     "lint": "jshint .",
     "validate": "npm ls"
   },
